@@ -38,8 +38,7 @@ public class JwtUtils {
                 .withSubject(email)
                 .withClaim("authorities", authorities)
                 .withIssuedAt(new Date())
-                //.withExpiresAt(new Date(System.currentTimeMillis() + 86400000)) // 1 day
-                .withExpiresAt(new Date(System.currentTimeMillis() + 600000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 86400000)) // 1 day
                 .withJWTId(UUID.randomUUID().toString())
                 .withNotBefore(new Date(System.currentTimeMillis()))
                 .sign(algorithm);
