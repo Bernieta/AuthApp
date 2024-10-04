@@ -27,11 +27,6 @@ public class AuthController {
         );
     }
 
-    @GetMapping("/get")
-    public String get() {
-        return "Hello";
-    }
-
     @PostMapping("/sign-up")
     public ResponseEntity<AuthUserResponseDTO> signUp(@RequestBody @Valid AuthCreateUserDTO userDTO) {
         return new ResponseEntity<>(userDetailsService.createUser(userDTO), HttpStatus.CREATED);
