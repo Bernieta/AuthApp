@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  auth-app:
+    image: auth-app-image
+    container_name: auth-app-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      JWT_USER_GENERATOR: ${JWT_USER_GENERATOR}
+    ports:
+      - "8080:8080"
+    restart: on-failure
+    depends_on:
+      db-auth-app:
+        condition: service_healthy
+
+  db-auth-app:
+    image: postgres:16
+    container_name: postgres_database
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    restart: on-failure
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER}"]
+      timeout: 10s
+      retries: 5
